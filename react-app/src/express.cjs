@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 
 var global = {
@@ -13,14 +14,29 @@ var global = {
             hisClass: '18/C',
             favorite: false
         }
-    ],
-
-    favoriteTeacherIdx: null
+    ]
 
 }
 
+app.use(cors())
+
 app.get('/teachers', (req,res)=>{
-    res.sendStatus(200).json(global.teachers)
+    res.status(200).json(global.teachers)
+})
+
+app.get('/techer/:isfavorite', (req, res) => {
+    let found = null
+
+    for(let teacher of global.teachers){
+        if(teacher.favorite) found = teacher
+    }
+
+    if(found){
+        res.status(200).json(found)
+    }
+    else{
+        res.sendStatus(404)
+    }
 })
 
 const port = 3333
