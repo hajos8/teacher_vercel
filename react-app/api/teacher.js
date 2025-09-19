@@ -1,3 +1,5 @@
+import { global } from './globals.js'
+
 export default async function handler(req, res){
     let found = null
     if(global) found = global.teachers.find(teacher => teacher.favorite)
