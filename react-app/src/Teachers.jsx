@@ -9,38 +9,30 @@ export default class Teachers extends React.Component{
         return (
         <div>
             <ol>
-                {this.state.teachers.map((teacher, idx) =>{
-                    <li key = {idx}>
-                        <b>Name: </b>{teacher.name}; <b>Class: </b> {teacher.hisClass}
-                        {teacher.favorite &&
-                            <span>
-                                ; Our faovrite teacher!
-                            </span>
-                        }
+                {this.state.teachers.map((teacher, idx) => (
+                    <li key={idx}>
+                        <b>Name: </b>{teacher.name}; <b>Class: </b>{teacher.hisClass}
+                        {teacher.favorite && <span>; Our favorite teacher!</span>}
                     </li>
-                })}
+                ))}
             </ol>
         </div>
         )
     }
 
     async componentDidMount(){
-        fetch('http://localhost:3333/teachers')
-        .then(data => console.log(data))
-        .then(data => {
-            data.json()
-        })
-        .then(data => this.setState({teachers: data}))
-        .then(console.log(this.state.teachers))
-        .catch(console.warn)
-        .finally(console.log("asd"))
+        // http://localhost:3333/teachers
+        const response = await fetch('/api/teachers')
+        const data = await response.json()
+        this.setState({teachers: data})
 
         try{
-            const favoriteTeacher = await fetch('http://localhost:3333/teacher/true')
+            const favoriteTeacherJson = await fetch('/api/teacher/true')
+            const favoriteTeacher = await favoriteTeacherJson.json()
             console.log('favoriteTeacher', favoriteTeacher)
         }
         catch(err){
-            console.warn(err)
+            //console.warn(err)
         }
 
     }

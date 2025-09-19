@@ -25,12 +25,7 @@ app.get('/teachers', (req,res)=>{
 })
 
 app.get('/techer/:isfavorite', (req, res) => {
-    let found = null
-
-    for(let teacher of global.teachers){
-        if(teacher.favorite) found = teacher
-    }
-
+    const found = global.teachers.find(teacher => teacher.favorite)
     if(found){
         res.status(200).json(found)
     }
